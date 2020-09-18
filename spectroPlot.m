@@ -1,4 +1,4 @@
-function []= spectroPlot(segs)
+function [p,f,t]= spectroPlot(segs)
 % This function uses the sequences as input, and calculates the power
 % spectra and the spectrogram of the received signals
 figure

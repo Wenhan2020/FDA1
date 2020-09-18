@@ -56,7 +56,14 @@ WiFi_segs = seg(WiFi_seg_real, 500);
 LTE_segs = seg(LTE_seg_real, 500);
 FiveG_segs = seg(FiveG_seg_real, 500);
 
-% Applying short time Fourier Transform to segmented sequences in the
+% Test for pspectrum function
+[p,f,t] = pspectrum(WiFi_seg_real,'spectrogram');
+figure
+plot(p)
+pspectrum(WiFi_seg_real,'spectrogram');
+% Applying short time Fourier Transform to segmented sequences
+for i 
+
 % segments matrix
 
 
