@@ -1,6 +1,6 @@
 clc; clear; close all;
 % Find the folder of the signal data
-folder = 'C:\Users\wenhanzhang\Desktop\space micro\space micro';
+folder = 'C:\Users\wenhanzhang\MATLAB\Projects\FDA_window_comparison';
 
 % Read the data structure from .dat documents
 WiFi = readdata(folder, 'WiFi1.mat');
