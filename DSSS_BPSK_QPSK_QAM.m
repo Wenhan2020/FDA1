@@ -14,9 +14,7 @@ wifi = WaveStruct.waveStruct.waveform;
 fullMatFileName = fullfile(folder,'bits1.mat');
 bits = load(fullMatFileName).bits;
 
-
 %% DSSS
-
 R = length(bits);               % The length of the bit stream.
 S = 20;                         % Bit duration(each bit is represented with 
                                 % S samples of the waveform used in signaling.
@@ -71,22 +69,19 @@ spreaded_sig = bits_wifi .* pn_sig_trx;
 subplot(2,2,3);
 plot(spreaded_sig);
 axis([-1 S*R+10 -1.2 1.2]);
-title('Spreaded signal');
+title('Spread signal');
 xlabel('Samples')
 ylabel('Amplitude')
-
 
 z = 10*log10(abs(fft(xcorr(spreaded_sig))));   % PSD of the spreaded signal.
 subplot(2,2,4);
 plot(z);
 axis([0 840 0 1.1*max(z)]);
-title('Power spectrum density of the spreaded signal');
+title('Power spectrum density of the spread signal');
 xlabel('Frequency(Hz)')
 ylabel('Power(dB)')
 
-
 %% Binary signal generation
-
 bits_wifi_binary = zeros(1, length(bits_wifi));
 for i = 1:length(bits_wifi)
     if bits_wifi(1,i)== -1
@@ -96,7 +91,6 @@ for i = 1:length(bits_wifi)
     end
 end
 
-
 spreaded_sig_binary = zeros(1, length(spreaded_sig));
 for i = 1:length(spreaded_sig)
     if spreaded_sig(1,i)== -1
@@ -105,7 +99,6 @@ for i = 1:length(spreaded_sig)
         spreaded_sig_binary(1, i) = 1;
     end
 end
-
 
 %% QPSK
 figure
@@ -118,6 +111,11 @@ subplot(2,1,2)
 spectrogram(y_q2);
 title('QPSK-DSSS power spectrogram');
 
+figure
+subplot(2,1,1)
+plot(abs(y_q1))
+subplot(2,1,2)
+plot(abs(y_q2))
 
 %% BPSK
 figure
@@ -151,3 +149,32 @@ y_64qa2 = qammod(spreaded_sig_binary, 64);
 subplot(2,1,2)
 spectrogram(y_64qa2);
 title('64QAM-DSSS power spectrogram');
+
+%% Power density calculation
+figure
+subplot(2,1,1)
+periodogram(bits_wifi,rectwin(length(bits_wifi)),length(bits_wifi));
+title('Power spectrum density of the original signal');
+xlabel('Frequency(Hz)')
+ylabel('Power(dB)')
+subplot(2,1,2);
+periodogram(spreaded_sig,rectwin(length(spreaded_sig)),length(spreaded_sig));
+title('Power spectrum density of the spread signal');
+xlabel('Frequency(Hz)')
+ylabel('Power(dB)')
+
+%% Bits comparison
+figure
+subplot(2,1,1)
+plot(bits_wifi);
+axis([-1 S*R+10 -1.2 1.2]);
+title('The original base-band signal generated using polar non-return-to-zero signaling');
+xlabel('Samples')
+ylabel('Amplitude')
+% Spreading of sequence
+subplot(2,1,2)
+plot(spreaded_sig);
+axis([-1 S*R+10 -1.2 1.2]);
+title('Spread signal');
+xlabel('Samples')
+ylabel('Amplitude')
